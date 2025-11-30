@@ -1,28 +1,18 @@
-# main.py
+import core_functions  # Assuming you're using a module named 'core_functions'
+import dialogue
 
-import os
+def main():
+    initial_state = core_functions.game_start()
+    game_over = initial_state["game_over"]
 
-def run_application():
-    """
-    The main logic function of the application.
-    This function should contain the core business logic.
-    """
-    # Example: Check an environment variable (standard in GCP/Docker)
-    environment = os.getenv('ENV', 'development')
-    print(f"Starting application in {environment} mode.")
-    
-    # --- Your main code goes here ---
-    print("Project initialized successfully on M4 Pro!")
-    # --- End of main code ---
-    
-    return True
+    print(f"Game over status: {game_over}")  # Just for demonstration
+    player_x, player_y = initial_state["player_position"]
 
-# --- Standard Python Entry Point ---
+    dialogue.scene_one()
+    while game_over == False:
+        game_over = core_functions.overworld((player_x, player_y), game_over)
+    print("And then it all turned to black...")
+
+
 if __name__ == "__main__":
-    # This block ensures the code only runs when executed directly
-    # (i.e., when you run 'python main.py'), not when imported as a module.
-    
-    if run_application():
-        print("Application finished execution.")
-    else:
-        print("Application failed.")
+    main()
